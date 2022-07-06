@@ -20,8 +20,6 @@ def create_app(test_config=None):
     """
     CORS(app, resources={"/": {"origins": "*"}})
 
-    
-
     """
     @TODO: Use the after_request decorator to set Access-Control-Allow
     """
@@ -67,7 +65,7 @@ def create_app(test_config=None):
     """
     @app.route('/questions')
     def get_questions():
-        page = request.args.get('page' ,1 , type=int)
+        page = request.args.get('page' , 1 , type=int)
         start = (page - 1) * QUESTIONS_PER_PAGE
         end = start + QUESTIONS_PER_PAGE
 
@@ -80,7 +78,7 @@ def create_app(test_config=None):
         for category in categoryData:
             categories[category.id] = category.type
 
-        if len(getQuestions) == 0:
+        if len(paginatedQuestions) == 0:
             abort(404)
 
         else:
@@ -110,7 +108,7 @@ def create_app(test_config=None):
 
             return jsonify({
                'success': True,
-               'deleted': getQuestion    
+               'deleted': id  
             })
         
             
@@ -136,7 +134,8 @@ def create_app(test_config=None):
         input_category = getDaTa['category']
         input_difficulty = getDaTa['difficulty']
 
-        if (len(new_question)==0) or (len(input_answer)==0) :
+        if (len(new_question)==0) or (len(input_answer)==0):
+
             abort(422)
 
         else:
@@ -149,17 +148,10 @@ def create_app(test_config=None):
 
             newQuestion.insert()
         
-            getQuestion = Question.query.all()
-            page = request.args.get('page' ,1 , type=int)
-            start = (page - 1) * QUESTIONS_PER_PAGE
-            end = start + QUESTIONS_PER_PAGE
-            questions = getQuestion[start:end]
-
+            
             return jsonify({
                 'success': True,
                 'created': newQuestion.id,
-                'questions': questions,
-                'total_questions': len(getQuestion)
             })
 
 
@@ -188,15 +180,11 @@ def create_app(test_config=None):
             if questions==[]:
                 abort(404)
 
-            else:
-                page = request.args.get('page' ,1 , type=int)
-                start = (page - 1) * QUESTIONS_PER_PAGE
-                end = start + QUESTIONS_PER_PAGE
-                result = questions[start:end]
+            else: 
 
                 return jsonify({
                     'success': True,
-                    'questions': result,
+                    'questions': questions,
                     'total_questions': len(questions)
                 })
         else:
@@ -257,15 +245,18 @@ def create_app(test_config=None):
         else:
             quizQuestions = Question.query.all()
 
-        if (len(lastQuestion) != len(quizQuestions)): 
+        while (len(lastQuestion) != len(quizQuestions)): 
             randomQuestion = random.choice(quizQuestions)
             question = randomQuestion.format()
+
             if question['id'] not in lastQuestion:
                 return jsonify({
                     'success': True,
                     'question': question
                 })
-
+            else:
+                continue
+                
         else:
             return jsonify({
                 'success': True,
@@ -310,7 +301,3 @@ def create_app(test_config=None):
         }), 500
 
     return app
-
-
- 
-

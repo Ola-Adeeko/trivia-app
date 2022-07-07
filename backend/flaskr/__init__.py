@@ -248,7 +248,8 @@ def create_app(test_config=None):
         while (len(lastQuestion) != len(quizQuestions)): 
             randomQuestion = random.choice(quizQuestions)
             question = randomQuestion.format()
-
+            
+            
             if question['id'] not in lastQuestion:
                 return jsonify({
                     'success': True,

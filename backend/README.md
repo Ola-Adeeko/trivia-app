@@ -69,8 +69,250 @@ One note before you delve into your tasks: for each endpoint, you are expected t
 
 ## Documenting your Endpoints
 
-You will need to provide detailed documentation of your API endpoints including the URL, request parameters, and the response body. Use the example below as a reference.
+GET /categories
 
+  - Returns a list of all available categories and a success value.
+  
+  - Response 
+        {
+        "categories": {
+            "1": "Science",
+            "2": "Art",
+            "3": "Geography",
+            "4": "History",
+            "5": "Entertainment",
+            "6": "Sports"
+        },
+        "success": true
+    }
+
+GET /questions
+
+  - Returns a list of questions object, total questions, success value and          categories
+  - List is returned in a paginated form of 10 questions
+
+  - Response
+          {
+            "categories": {
+                "1": "Science",
+                "2": "Art",
+                "3": "Geography",
+                "4": "History",
+                "5": "Entertainment",
+                "6": "Sports"
+            },
+            "questions": [
+                {
+                    "answer": "Apollo 13",
+                    "category": 5,
+                    "difficulty": 4,
+                    "id": 2,
+                    "question": "What movie earned Tom Hanks his third straight Oscar nomination, in 1996?"
+                },
+                {
+                    "answer": "Tom Cruise",
+                    "category": 5,
+                    "difficulty": 4,
+                    "id": 4,
+                    "question": "What actor did author Anne Rice first denounce, then praise in the role of her beloved Lestat?"
+                },
+                {
+                    "answer": "Edward Scissorhands",
+                    "category": 5,
+                    "difficulty": 3,
+                    "id": 6,
+                    "question": "What was the title of the 1990 fantasy directed by Tim Burton about a young man with multi-bladed appendages?"
+                },
+                {
+                    "answer": "Lake Victoria",
+                    "category": 3,
+                    "difficulty": 2,
+                    "id": 13,
+                    "question": "What is the largest lake in Africa?"
+                },
+                {
+                    "answer": "The Palace of Versailles",
+                    "category": 3,
+                    "difficulty": 3,
+                    "id": 14,
+                    "question": "In which royal palace would you find the Hall of Mirrors?"
+                },
+                {
+                    "answer": "Agra",
+                    "category": 3,
+                    "difficulty": 2,
+                    "id": 15,
+                    "question": "The Taj Mahal is located in which Indian city?"
+                },
+                {
+                    "answer": "Escher",
+                    "category": 2,
+                    "difficulty": 1,
+                    "id": 16,
+                    "question": "Which Dutch graphic artist–initials M C was a creator of optical illusions?"
+                },
+                {
+                    "answer": "Mona Lisa",
+                    "category": 2,
+                    "difficulty": 3,
+                    "id": 17,
+                    "question": "La Giaconda is better known as what?"
+                },
+                {
+                    "answer": "One",
+                    "category": 2,
+                    "difficulty": 4,
+                    "id": 18,
+                    "question": "How many paintings did Van Gogh sell in his lifetime?"
+                },
+                {
+                    "answer": "Jackson Pollock",
+                    "category": 2,
+                    "difficulty": 2,
+                    "id": 19,
+                    "question": "Which American artist was a pioneer of Abstract Expressionism, and a leading exponent of action painting?"
+                }
+            ],
+            "success": true,
+            "totalQuestions": 26
+        }
+
+
+POST /questions
+
+  - Posts a new question which will require the question, answer, category and difficulty. 
+  - Returns a success value and the new question id
+
+  - Response 
+    {
+        "created": 15,
+        "success": true
+    }
+
+
+DELETE /questions/<int:id>
+
+  - Deletes a question using the question id and returns a success value and the deleted item id
+
+  - Response
+    {
+        "deleted": 13,
+        "success": true
+    }
+
+POST /questions/search
+
+  - Returns any question object based on a search term for which the question is a substring from. 
+  - Returns a success value and total number of questions
+
+  - Response 
+      {
+          "questions": [
+              {
+                  "answer": "One",
+                  "category": 2,
+                  "difficulty": 4,
+                  "id": 18,
+                  "question": "How many paintings did Van Gogh sell in his lifetime?"
+              }
+          ],
+          "success": true,
+          "total_questions": 1
+      }
+
+
+GET /categories/<int:id>/questions
+
+  - Returns a list of question objects based on a category, success value and total questions
+
+  - Response 
+        {
+          "current_category": "Art",
+          "questions": [
+              {
+                  "answer": "Escher",
+                  "category": 2,
+                  "difficulty": 1,
+                  "id": 16,
+                  "question": "Which Dutch graphic artist–initials M C was a creator of optical illusions?"
+              },
+              {
+                  "answer": "Mona Lisa",
+                  "category": 2,
+                  "difficulty": 3,
+                  "id": 17,
+                  "question": "La Giaconda is better known as what?"
+              },
+              {
+                  "answer": "One",
+                  "category": 2,
+                  "difficulty": 4,
+                  "id": 18,
+                  "question": "How many paintings did Van Gogh sell in his lifetime?"
+              },
+              {
+                  "answer": "Jackson Pollock",
+                  "category": 2,
+                  "difficulty": 2,
+                  "id": 19,
+                  "question": "Which American artist was a pioneer of Abstract Expressionism, and a leading exponent of action painting?"
+              },
+              {
+                  "answer": "7",
+                  "category": 2,
+                  "difficulty": 1,
+                  "id": 35,
+                  "question": "How many Continents are there"
+              },
+              {
+                  "answer": "7",
+                  "category": 2,
+                  "difficulty": 1,
+                  "id": 37,
+                  "question": "How many Continents are there"
+              }
+          ],
+          "success": true,
+          "total_questions": 6
+      }
+
+
+POST /quizzes
+
+  - Returns a random question based on a category, and a success value
+
+  - Response 
+           {
+               "question" :[
+                      {
+                        "answer": "Mona Lisa",
+                        "category": 2,
+                        "difficulty": 3,
+                        "id": 17,
+                        "question": "La Giaconda is better known as what?"
+                    }
+                    ],
+                    "success": true
+            }
+
+
+### Error Handling
+
+ - Errors are returned in json format
+    {
+        "error": 404,
+        "message": "File Not found.",
+        "success": false
+    }
+
+  - The Api will return four(4) error types when requests fail:
+
+    - 400 : Bad request error, Please try again
+    - 404 : File Not found
+    - 422 : unprocessable. structure error
+    - 500 : Please bear with us, Fault not from you
+
+    
 ### Documentation Example
 
 `GET '/api/v1.0/categories'`
